@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" xmlns:layout="http://uitrap.net.nz/thymeleaf/layout"
+layout:decorator="template1.html">
+
+
+<head>
+<meta charset="utf-8">
+<title>PAGE PATIENTS</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+</head>
+<body>
+	<div layout:fragment="pageContent">
+	
+	<div class="container mt-5">
+		<div class="card">
+			<div class="card-header">
+				liste des patient
+				<div class="card-body">
+				<from th:action="@{patients}" method ="get">
+<!-- 				   <div class="form-group"> -->
+				    <label>NAME</label>
+				   <input type="text" name = "KEYWORD" height= "100"/>
+				   
+				  <button class="btn btn-success" style="height:50px">chercher</button>
+<!-- 				   </div> -->
+				</from>
+
+					<table class="table table-dark table-striped" style="margin-top:50px">
+						<tr>
+							<th>id</th>
+							<th>NAME</th>
+							<th>Date Naissance</th>
+							<th>malade</th>
+							<th> </th>
+						</tr>
+
+						<tr th:each="p:${patients}">
+							<td th:text="${p.id}"></td>
+							<td th:text="${p.nom}"></td>
+							<td th:text="${p.date_naissance}"></td>
+							<td th:text="${p.malade}"></td>
+							 <td><a class="btn btn-danger"  th:href="@{deletepatient2(id=${p.id},KEYWORD=${KEYWORD},page=${currentpage},size=${size})}">DELETE</a></td>
+						</tr>
+					</table>
+					<ul class="nav nav-pills">
+						<li th:each="page,status:${pages}"><a
+							th:class="${status.index==currentpage?'btn-primary':'btn'}"
+							th:href="@{patients(page=${status.index},KEYWORD=${KEYWORD},page=${currentpage},size=${size})}"
+							th:text="${status.index}"></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+	</div>
+
+
+</body> 
+</html>
